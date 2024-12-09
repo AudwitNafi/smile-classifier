@@ -6,3 +6,4 @@ opencv-python
 tensorflow
 aiofiles
 jinja2
+sqlalchemy

@@ -6,14 +6,22 @@ import cv2
 import tensorflow as tf
 import pickle
 import numpy as np
+from datetime import datetime
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse, RedirectResponse
+import models
+from database import engine, SessionLocal
+from models import history
+
 
 app = FastAPI(title = "Smile Classifier")
 
 templates = Jinja2Templates(directory="templates")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+models.Base.metadata.create_all(bind=engine)
 
 @app.get("/")
 async def root(request: Request):
@@ -45,25 +53,44 @@ async def upload_image(file: UploadFile):
             # Convert to RGB (if necessary) and save as JPG
             rgb_image = img.convert("RGB")
             rgb_image.save(output_file_path, format="JPEG")
+
+        model_path = 'model/finalized_model.sav'
+        loaded_model = pickle.load(open(model_path, 'rb'))
+        img = cv2.imread(output_file_path)    
+        resize = tf.image.resize(img, (256, 256))
+        yhat = loaded_model.predict(np.expand_dims(resize / 255, 0))
+        result = "smiling" if yhat > 0.5 else "not smiling"
+        session = SessionLocal()
+        record = history(title=output_file_path, result=result, date_time=datetime.utcnow())
+        session.add(record)
+        session.commit()
+        image_id = record.id
+        session.close()
+
+        # return {"result": result, "image_id": image_id, "url": f"/classify/{image_id}"}
+        return RedirectResponse(url=f"/classify/{image_id}", status_code=303)
         
-        return {"message": f"Image saved as {output_file_path}"}
+        # return {"message": f"Image saved as {output_file_path}"}
+    
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Image processing failed: {e}")
 
 
-@app.get("/classify/{image_path}")
-async def classify_image(image_path: str):
+@app.get("/classify/{image_id}", response_class=HTMLResponse)
+async def classify_image(image_id: int):
     # image = Image.open(image_path)
-    model_path = 'model/finalized_model.sav'
-    loaded_model = pickle.load(open(model_path, 'rb'))
-    img = cv2.imread(image_path)    
-    resize = tf.image.resize(img, (256, 256))
-    yhat = loaded_model.predict(np.expand_dims(resize / 255, 0))
-    if yhat > 0.5:
-        return {"message" : "This Person is Smiling!"}
+    session = SessionLocal()
+    record = session.query(history).filter(history.id == image_id).first()
+    session.close()
+    if record:
+        return f"""<h1>Classification Result</h1>
+        <p>Image Path: {record.title}</p>
+        <p>Result: {record.result}</p>
+        <p>Date-Time: {record.date_time}</p>"""
     else:
-        return {"message" : "This Person is Not Smiling!"}
+        return "<h1>Record not found</h1>"
+
 
     # return {"message": f"{yhat}"}
 
