@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', path='\css\style.css')}}"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Smile Classifier</h1>
+    <div class="navbar">
+      <h5><a href="/classify">Classify an Image</a></h5>
+      <h5><a href="/history">Classification History</a></h5>
+    </div>
+    <h3>This app classifies images of people into two categories:</h3>
+    <ol>
+      <li>Smiling</li>
+      <li>Not Smiling</li>
+    </ol>
+    <p>
+      The classier is a CNN model built using Tensorflow. CNN works the best in
+      classifying images.
+    </p>
+  </body>
+</html>

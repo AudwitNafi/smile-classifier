@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', path='\css\style.css')}}"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Smile Classifier</h1>
+    <h2>Classification History</h2>
+    <div class="navbar">
+      <h5><a href="/">Home Page</a></h5>
+      <h5><a href="/classify">Classify an Image</a></h5>
+    </div>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Image Path</th>
+        <th>Classification</th>
+        <th>Timestamp</th>
+      </tr>
+      {% for row in result %}
+      <tr>
+        <td>{{row.id}}</td>
+        <td>{{ row.title }}</td>
+        <td>{{ row.result }}</td>
+        <td>{{ row.timestamp }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

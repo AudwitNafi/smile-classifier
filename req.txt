@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pillow
+opencv-python
+tensorflow
+aiofiles
+jinja2
+sqlalchemy
+pymysql
