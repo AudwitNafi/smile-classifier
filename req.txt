@@ -7,3 +7,4 @@ tensorflow
 aiofiles
 jinja2
 sqlalchemy
+pymysql

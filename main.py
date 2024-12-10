@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, Request
+from fastapi import FastAPI, File, UploadFile, HTTPException, Request, Depends
 from PIL import Image
 import os
 import io
@@ -12,6 +12,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, RedirectResponse
 import models
 from database import engine, SessionLocal
+from sqlalchemy.orm import Session
 from models import history
 
 
@@ -23,20 +24,24 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 models.Base.metadata.create_all(bind=engine)
 
+#Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 @app.get("/")
 async def root(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
-
-@app.post("/")
-async def post():
-    return "The post route."
 
 @app.get("/classify")
 async def classify_page(request: Request):
     return templates.TemplateResponse("classify.html", {"request": request})
 
 @app.post("/classify")
-async def upload_image(file: UploadFile):
+async def upload_image(file: UploadFile, session:Session=Depends(get_db)):
     # Validate the file is an image
     if file.content_type not in ["image/png", "image/jpeg", "image/jpg"]:
         raise HTTPException(status_code=400, detail="Invalid file type. Only PNG and JPEG are supported.")
@@ -60,13 +65,13 @@ async def upload_image(file: UploadFile):
         resize = tf.image.resize(img, (256, 256))
         yhat = loaded_model.predict(np.expand_dims(resize / 255, 0))
         result = "smiling" if yhat > 0.5 else "not smiling"
-        session = SessionLocal()
+        
+        # session = SessionLocal()
         record = history(title=output_file_path, result=result, date_time=datetime.utcnow())
         session.add(record)
         session.commit()
         image_id = record.id
         session.close()
-
         # return {"result": result, "image_id": image_id, "url": f"/classify/{image_id}"}
         return RedirectResponse(url=f"/classify/{image_id}", status_code=303)
         
@@ -78,9 +83,7 @@ async def upload_image(file: UploadFile):
 
 
 @app.get("/classify/{image_id}", response_class=HTMLResponse)
-async def classify_image(image_id: int):
-    # image = Image.open(image_path)
-    session = SessionLocal()
+async def classify_image(image_id: int, session:Session=Depends(get_db)):
     record = session.query(history).filter(history.id == image_id).first()
     session.close()
     if record:

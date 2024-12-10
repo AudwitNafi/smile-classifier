@@ -5,6 +5,6 @@ class history(Base):
     __tablename__ = 'history'
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String)
-    result = Column(String, nullable=False)
+    title = Column(String(255), index=True)
+    result = Column(String(20), nullable=False)
     date_time = Column(DateTime, default=datetime.now)
