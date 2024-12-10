@@ -3,9 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', path='\css\style.css')}}"
+    />
     <title>Document</title>
   </head>
   <body>
     <h1>Classification History</h1>
+    <table>
+      <tr>
+        <th>Image Path</th>
+        <th>Classification</th>
+        <th>Timestamp</th>
+      </tr>
+      {% for row in result %}
+      <tr>
+        <td>{{row.id}}</td>
+        <td>{{ row.title }}</td>
+        <td>{{ row.result }}</td>
+        <td>{{ row.timestamp }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <h3><a href="/">Home Page</a></h3>
+    <h3><a href="/classify">Classify an Image</a></h3>
   </body>
 </html>

@@ -96,4 +96,12 @@ async def classify_image(image_id: int):
 
 @app.get("/history")
 async def classify_page(request: Request):
-    return templates.TemplateResponse("history.html", {"request": request})
+    session = SessionLocal()
+    ##query to retrieve all history
+    result = session.query(history).all()
+    session.close()
+    #printing all rows for testing purposes
+    for record in result:
+        print(record.id, record.title, record.result, record.date_time)
+    
+    return templates.TemplateResponse("history.html", {"request": request, "result": result})
