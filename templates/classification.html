@@ -19,14 +19,12 @@
       <h5><a href="/classify">Classify an Image</a></h5>
       <h5><a href="/history">Classification History</a></h5>
     </div>
-    <h3>This app classifies images of people into two categories:</h3>
-    <ol>
-      <li>Smiling</li>
-      <li>Not Smiling</li>
-    </ol>
+
+    <h3>Classification Result</h3>
+
+    <img src="{{record.title}}" />
     <p>
-      The classier is a CNN model built using Tensorflow. CNN works the best in
-      classifying images.
+      <strong>person is {{record.result}}</strong>
     </p>
   </body>
 </html>

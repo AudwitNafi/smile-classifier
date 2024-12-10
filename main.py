@@ -83,14 +83,11 @@ async def upload_image(file: UploadFile, session:Session=Depends(get_db)):
 
 
 @app.get("/classify/{image_id}", response_class=HTMLResponse)
-async def classify_image(image_id: int, session:Session=Depends(get_db)):
+async def classify_image(image_id: int, request: Request, session:Session=Depends(get_db)):
     record = session.query(history).filter(history.id == image_id).first()
     session.close()
     if record:
-        return f"""<h1>Classification Result</h1>
-        <p>Image Path: {record.title}</p>
-        <p>Result: {record.result}</p>
-        <p>Date-Time: {record.date_time}</p>"""
+        return templates.TemplateResponse("classification.html", {"request": request, "record": record})
     else:
         return "<h1>Record not found</h1>"
 

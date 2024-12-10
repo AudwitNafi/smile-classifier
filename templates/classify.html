@@ -14,6 +14,11 @@
     <title>Classify Image</title>
   </head>
   <body>
+    <h1>Smile Classifier</h1>
+    <div class="navbar">
+      <h5><a href="/">Home Page</a></h5>
+      <h5><a href="/history">Classification History</a></h5>
+    </div>
     <div class="container">
       <div class="img-area" data-img="">
         <i class="bx bxs-cloud-upload icon"></i>
@@ -26,11 +31,11 @@
         enctype="multipart/form-data"
       >
         <label for="file">Select image:</label>
-        <input type="file" id="img" name="file" />
-        <button type="submit">Submit</button>
+        <div class="inputs">
+          <input type="file" id="img" name="file" />
+          <button class="btn" type="submit">Submit</button>
+        </div>
       </form>
     </div>
-    <h3><a href="/">Home Page</a></h3>
-      <h3><a href="/history">Classification History</a></h3>
   </body>
 </html>
