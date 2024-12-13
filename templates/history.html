@@ -14,27 +14,32 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>Smile Classifier</h1>
-    <h2>Classification History</h2>
     <div class="navbar">
-      <h5><a href="/">Home Page</a></h5>
-      <h5><a href="/classify">Classify an Image</a></h5>
+      <h1>Smile Classifier</h1>
+      <div class="nav-items">
+        <h5><a href="/">Home Page</a></h5>
+        <h5><a href="/classify">Classify an Image</a></h5>
+      </div>
     </div>
-    <table>
-      <tr>
-        <th>ID</th>
-        <th>Image Path</th>
+    <div class="table-div">
+
+      <h2>Classification History</h2>
+      <table>
+        <tr>
+          <th>ID</th>
+        <th>Image</th>
         <th>Classification</th>
         <th>Timestamp</th>
       </tr>
       {% for row in result %}
       <tr>
         <td>{{row.id}}</td>
-        <td>{{ row.title }}</td>
+        <td id="image-cell"><img src=../{{ row.title }}></td>
         <td>{{ row.result }}</td>
-        <td>{{ row.timestamp }}</td>
+        <td>{{ row.date_time }}</td>
       </tr>
       {% endfor %}
     </table>
+  </div>
   </body>
 </html>

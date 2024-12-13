@@ -14,19 +14,25 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>Smile Classifier</h1>
     <div class="navbar">
-      <h5><a href="/classify">Classify an Image</a></h5>
-      <h5><a href="/history">Classification History</a></h5>
+      <h1>Smile Classifier</h1>
+      <div class="nav-items">
+
+        <h5><a href="/classify">Classify an Image</a></h5>
+        <h5><a href="/history">Classification History</a></h5>
+      </div>
     </div>
-    <h3>This app classifies images of people into two categories:</h3>
-    <ol>
-      <li>Smiling</li>
-      <li>Not Smiling</li>
-    </ol>
+    <div class="meme">
+      <img src="meme_images/2.jpg">
+    </div>
+    
     <p>
-      The classier is a CNN model built using Tensorflow. CNN works the best in
-      classifying images.
+      This app classifies images of people into two categories:
+    <strong>Smiling, Not Smiling</strong>
+      The classier is a CNN model built using Tensorflow. I chose this model CNN works the best in
+      classifying images. It uses convolution operations to extract features from images. These features are then used to classify the images.
     </p>
+    <h4>Model Configuration</h4>
+    <img id="model-config" src="meme_images\model_configuration.JPG">
   </body>
 </html>

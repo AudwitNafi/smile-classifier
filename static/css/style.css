@@ -4,8 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-  color: grey;
+  font-family: "Poppins", sans-serif;   
 }
 
 :root {
@@ -17,10 +16,7 @@
   --shadow-3: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-  position: absolute;
-  top: 20px;
-}
+
 
 body {
   display: flex;
@@ -33,10 +29,47 @@ body {
 
 .navbar {
   position: absolute;
-  top: 150px;
+  top: 0;
   width: 100%;
   display: flex;
   justify-content: space-around;
+  background-color: cadetblue;
+  color: white
+  margin-bottom: 50px;
+}
+.nav-items{
+  width: 25%;
+  display: flex;
+  justify-content: space-between;
+}
+h5{
+  align-self: center;
+}
+
+img{
+  width: 150px;
+  height: 150px;
+}
+
+p{
+  display: inline-block;
+  width: 80%;
+}
+
+.meme img{
+  width: 400px;
+  height: 250px;
+}
+
+#model-config{
+  width: 350px;
+  height: 220px;
+  margin: 30px 0;
+}
+
+.meme{
+  margin: 100px;
+  margin-bottom: 50px;
 }
 
 .container {
@@ -147,6 +180,29 @@ td {
   border-collapse: collapse;
   padding: 5px;
   justify-content: center;
+}
+
+table{
+  width: 60%;
+}
+
+th{
+  background-color: var(--light-blue)
+}
+td{
+  text-align: center;
+}
+#image-cell{
+  display: flex;
+  justify-content: center;
+}
+.table-div{
+  width: 100%;
+  margin: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn {
